@@ -1,10 +1,27 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.App input{
+  margin-top: 20px;
+  width: 300px;
+  height: 40px;
+  font-size: 20px;
+  padding-left: 10px;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+p{
+  margin:10px;
+  font-size: 12px;
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
