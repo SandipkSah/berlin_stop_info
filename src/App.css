@@ -53,3 +53,14 @@ p{
     transform: rotate(360deg);
   }
 }
+
+.table_bg{
+  background-color: #f8f9fa !important;
+  display: none;
+  width: 600px;
+  display: grid;
+  place-content: center;
+  padding: 14px;
+  border-radius: 10px;
+  margin-left: -150px;
+}

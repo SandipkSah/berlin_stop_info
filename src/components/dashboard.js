@@ -1,46 +1,57 @@
-import React, { useRef, useState, useAuth } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import {getoptions as options} from "./data";
-import stopInfo from "./StopInfo";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
+import { Form, Button, Card } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+
 const axios = require("axios");
 
 export default function Dashboard() {
-  const [inputValue, setInputValue] = useState();
+  const Options = [];
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    console.log("from handle function of try block");
-    axios
-      .get("https://v5.vbb.transport.rest/stations?query=meh")
-      .then((response) => {
-        console.log(response.data);
-      });
-  }
+  let JSONData = [];
+  const [inputValue, setInputValue] = useState({});
 
-  const data = axios.get(
-    "https://v5.vbb.transport.rest/stations?query=mehringd"
-  );
+  useEffect(() => {
+    const getData = async () => {
+      await axios.get().then((res) => {
+        console.log(`hello from useEffect console ..... `);
+        console.log(res.data)
+        JSONData = Object.values(res.data);
+        console.log("*****", JSONData[4]);
+        console.log("the length of data is ");
+        JSONData.forEach((each_data) => {
+          Options.push({ value: each_data.name, label: each_data.name });
+        })
+        
+
+
+
+
+
+        //setInputValue(Options[4])
+        // console.log("the options are \n", inputValue["id"]);
+        console.log(JSONData[4].id)
+      })
+      .catch((error)=>(console.log(error)))
+
+    };
+    getData();
+  })
+
+  console.log("*", Options);
+
 
   const history = useHistory();
   const handleSubmit2 = (e) => {
     e.preventDefault();
-    console.log("hello-----");
-    console.log(inputValue);
-    console.log("hello-----");
-    console.log(data);
-    console.log("hello-----");
-
-    //console.log(`${e.target}`);
-    history.push("/stopInfo");
-  };
-
-  const handleOnChange = () => {};
-
-  const handleSelectChange = (e) => {
-    // e.preventDefault();
-    console.log(e);
+    // const someEventHandler = event => {
+      history.push({
+          pathname: '/stopInfo',
+          // search: '?query=abc',
+          state: { detail: JSONData[4].id }
+      });
+   
+    
   };
 
   return (
@@ -52,18 +63,15 @@ export default function Dashboard() {
             <Form.Group id="origin">
               <Form.Label>Select Stop</Form.Label>
               <Select
-                // cacheOptions
-                options={options(inputValue)}
-                // defaultOptions
-                onInputChange={(e) => {
+                onChange={(e) => {
                   console.log(inputValue);
                   setInputValue(e);
                 }}
+                options={Options}
+                placeholder="start typing"
                 isSearchable
-                placeholder="start typing to find"
               />
             </Form.Group>
-            {/* <Link to="/stopInfo"> */}
             <Button
               onClick={(e) => handleSubmit2(e)}
               className="w-100 mt-3"
@@ -71,7 +79,6 @@ export default function Dashboard() {
             >
               Get Info
             </Button>
-            {/* </Link> */}
           </Form>
         </Card.Body>
       </Card>
