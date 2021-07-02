@@ -5,7 +5,8 @@ import { Container } from "react-bootstrap";
 // import AuthProvider from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./components/dashboard";
-import Path from "./components/StopInfo";
+import stopInfo from "./components/StopInfo";
+import stopDepartures from "./components/stopDeparturedetail";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route path="/stopInfo" component={Path} />
+            <Route path="/stopInfo" component={stopInfo} />
+            <Route path="/stopDepartures" component={stopDepartures} />
             {/*
               <Route path="/forgot-password" component={ForgotPassword} /> */}
           </Switch>
