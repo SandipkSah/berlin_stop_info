@@ -1,36 +1,26 @@
 import axios from "axios";
-// import { Form, Button, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 
 export default function StopInfo() {
+  const history = useHistory();
   const location = useLocation();
-
-  const [queryParam, setQueryParam] = useState();
-  // const [objects, setObject] = useState();
-
+  const queryParam =
+    location.state.detail === undefined ? "airport" : location.state.detail;
+  console.log("----------", queryParam);
+  const [stopsList, setstopsList] = useState([]);
+  
   useEffect(() => {
-    location.state.detail
-      ? setQueryParam(location.state.de)
-      : setQueryParam("a");
-    //console.log("----------------",queryParam)
     axios
-      // .get(`https://v5.vbb.transport.rest/locations?query=${queryParam}`)
       .get(
         `https://berlin-trasnportation-app.herokuapp.com/api/getlocation/${queryParam}`
       )
       .then((res) => {
-        res.data.map((data) => {
-          if (JSONDATA.indexOf(data) !== -1) {
-            console.log("Value exists!");
-          } else {
-            JSONDATA.push(data);
-          }
-        });
+        setstopsList(res.data);
+        console.log(stopsList);
       })
       .catch((error) => {
-        console.log("hello from stopInfo axios error");
-        //console.log(queryParam)
+        console.log(error);
       });
   });
 
@@ -47,12 +37,20 @@ export default function StopInfo() {
           </tr>
         </thead>
         <tbody>
-          {JSONDATA.map((data) => (
+          {stopsList.map((data) => (
             <tr key={data.id}>
               <th scope="row">
-                <Link to="/stopDepartures" query={{ the: 'query' }}>
+                <a className="stop_name"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.push({
+                      pathname: "/stopDepartures",
+                      state: { detail: data.id },
+                    });
+                  }}
+                >
                   {data.name}
-                </Link>
+                </a>
               </th>
               <td>{data.type}</td>
               <td>{data.products.suburban ? "Available" : "Not Available"}</td>
@@ -60,28 +58,8 @@ export default function StopInfo() {
               <td>{data.products.tram ? "Available" : "Not Available"}</td>
             </tr>
           ))}
-          {/* {JSONDATA = []} */}
         </tbody>
       </table>
     </div>
   );
 }
-
-let JSONDATA = [
-  // {
-  //   type: "stop",
-  //   id: "900000100003",
-  //   name: "Alexanderplatz",
-  //   location: {
-  //     type: "location",
-  //     id: "900100003",
-  //     latitude: 52.521508,
-  //     longitude: 13.411267,
-  //   },
-  //   products: {
-  //     suburban: true,
-  //     subway: false,
-  //     tram: false,
-  //   },
-  // }
-];

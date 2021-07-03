@@ -11,7 +11,7 @@ export default function Dashboard() {
   console.log("*", Options);
   const history = useHistory();
 
-  const handleSubmit2 = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     history.push({
       pathname: "/stopInfo",
@@ -39,7 +39,7 @@ export default function Dashboard() {
               />
             </Form.Group>
             <Button
-              onClick={(e) => handleSubmit2(e)}
+              onClick={(e) => handleSubmit(e)}
               className="w-100 mt-3"
               type="submit"
             >
