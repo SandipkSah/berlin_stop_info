@@ -1,15 +1,17 @@
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 
-import {useState} from "react";
+import { useState } from "react";
 
-const navbar = (props) => {
-  const handleInput = (e) => {
-    props.searchParam = e.target.value
-    console.log("-------handle input", e.target.value);
-  };
+import React from "react";
+
+export default function Navbar_com({ login }) {
+  const [username, setUsername] = useState("hariommmmmmmm");
+  const [inputValue, setInputValue]=useState("")
+
+
   return (
-    <>
-      <Navbar bg="light" expand="lg">
+    <div>
+      <Navbar bg="light" expand="lg" onChange={() => login(inputValue)}>
         <Navbar.Brand href="#">Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -26,14 +28,12 @@ const navbar = (props) => {
               placeholder="Search"
               className="mr-2"
               aria-label="Search"
-              onChange={handleInput}
+              onChange={e => setInputValue(e.target.value)}
             />
             <Button variant="outline-success">Search</Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>
-    </>
+    </div>
   );
-};
-
-export default navbar;
+}

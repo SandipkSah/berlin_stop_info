@@ -9,7 +9,8 @@ export default function StopInfo(props) {
   //   location.state.detail === undefined ? "airport" : location.state.detail;
   // console.log("----------", queryParam);
   const [stopsList, setstopsList] = useState([]);
-
+  
+  
   useEffect(() => {
     axios
       .get(
@@ -40,8 +41,7 @@ export default function StopInfo(props) {
           {stopsList.map((data) => (
             <tr key={data.id}>
               <th scope="row">
-                <a
-                  className="stop_name"
+                <a className="stop_name"
                   onClick={(e) => {
                     e.preventDefault();
                     history.push({
@@ -53,10 +53,10 @@ export default function StopInfo(props) {
                   {data.name}
                 </a>
               </th>
-              <td>{data?.type}</td>
-              <td>{data?.products.subway ? "Available" : "Not Available"}</td>
-              <td>{data?.products.suburban ? "Available" : "Not Available"}</td>
-              <td>{data?.products.tram ? "Available" : "Not Available"}</td>
+              <td>{data.type}</td>
+              <td>{data.products.suburban ? "Available" : "Not Available"}</td>
+              <td>{data.products.subway ? "Available" : "Not Available"}</td>
+              <td>{data.products.tram ? "Available" : "Not Available"}</td>
             </tr>
           ))}
         </tbody>
