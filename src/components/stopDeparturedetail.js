@@ -4,22 +4,22 @@ import { useLocation } from "react-router-dom";
 
 export default function Stopdepartures() {
   const location = useLocation();
-  const passdata = {};
+  // const passdata = {};
 
-  const [departList, setDepartList] = useState();
+  const [departList, setDepartList] = useState([]);
+  // console.log("from props dataa .....", location.state.detail);
 
-  console.log("from props dataa .....", location.state.detail);
   useEffect(() => {
     axios
       .get(
         `https://berlin-trasnportation-app.herokuapp.com/api/stopdepartures/${location.state.detail}`
       )
       .then((res) => {
-        console.log(res.data);
+        console.log("------------------------data from get request", res.data);
         setDepartList(res.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("....................");
       });
   });
   return (

@@ -2,22 +2,25 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, Link, useHistory } from "react-router-dom";
 
-export default function StopInfo() {
+export default function StopInfo(props) {
   const history = useHistory();
-  const location = useLocation();
-  const queryParam =
-    location.state.detail === undefined ? "airport" : location.state.detail;
-  console.log("----------", queryParam);
+  // const location = useLocation();
+  // const queryParam =
+  //   location.state.detail === undefined ? "airport" : location.state.detail;
+  // console.log("----------", queryParam);
   const [stopsList, setstopsList] = useState([]);
+  
+// console.log("----------",props)
+
   
   useEffect(() => {
     axios
       .get(
-        `https://berlin-trasnportation-app.herokuapp.com/api/getlocation/${queryParam}`
+        `https://berlin-trasnportation-app.herokuapp.com/api/getlocation/${props.searchParam}`
       )
       .then((res) => {
         setstopsList(res.data);
-        console.log(stopsList);
+        // console.log(stopsList);
       })
       .catch((error) => {
         console.log(error);
@@ -25,7 +28,7 @@ export default function StopInfo() {
   });
 
   return (
-    <div className="bg-light table_bg">
+    <div className="col-auto">
       <table className="table">
         <thead>
           <tr>
