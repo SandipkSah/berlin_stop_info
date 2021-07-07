@@ -70,8 +70,30 @@ p {
     text-decoration: underline !important;
 }
 
-.stop_name:hover{
-  transition: ease-in-out;
-  background-color: rgb(192, 202, 221);
-  cursor:pointer;
+.stop_name:hover {
+    transition: ease-in-out;
+    background-color: rgb(192, 202, 221);
+    cursor: pointer;
+}
+
+.fav-button {
+    color: red;
+    font-size: medium;
+    text-align: center;
+    margin: auto;
+}
+
+.fav-button:hover {
+    cursor: pointer;
+    color: rgb(99, 91, 91);
+    transition: ease-in-out;
+}
+.searchbutton {
+    width: auto !important;
+    text-align: center;
+    align-content: center;
+    /* position: relative; */
+    /* justify-content: center; */
+    margin: auto;
+
 }

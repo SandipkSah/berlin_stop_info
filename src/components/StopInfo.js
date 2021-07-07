@@ -1,14 +1,34 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, Link, useHistory } from "react-router-dom";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 
 export default function StopInfo(props) {
   const history = useHistory();
-  // const location = useLocation();
-  // const queryParam =
-  //   location.state.detail === undefined ? "airport" : location.state.detail;
-  // console.log("----------", queryParam);
   const [stopsList, setstopsList] = useState([]);
+  const [favStopsid, setFavStopsid] = useState([])
+  const [favStopsList, setFavStopsList]=useState([])
+  
+
+  const changeFavStatus = (data) => {
+    const {id} = data
+    console.log(id);
+    console.log("favxa,", favStopsid.includes(id) );
+    if (!favStopsid.includes(id)) {
+      favStopsid.push(id)
+      // const storageFavStops = {id: data}
+      localStorage.setItem(id,data)
+      console.log(localStorage)
+      // console.log(storageFavStops)
+      console.log("--------array", favStopsid)
+      console.log("addinnggggggggggggg")
+    }else{
+      console.log("............",favStopsid.indexOf(id))
+      favStopsid.splice(favStopsid.indexOf(id), 1)
+      console.log("--------array", favStopsid)
+      console.log("removinggggggggggggggggg")
+    }
+  };
 
   useEffect(() => {
     axios
@@ -34,6 +54,7 @@ export default function StopInfo(props) {
             <th scope="col">Subway</th>
             <th scope="col">Suburban</th>
             <th scope="col">Tram</th>
+            <th scope="col">Fav</th>
           </tr>
         </thead>
         <tbody>
@@ -57,6 +78,19 @@ export default function StopInfo(props) {
               <td>{data?.products.subway ? "Available" : "Not Available"}</td>
               <td>{data?.products.suburban ? "Available" : "Not Available"}</td>
               <td>{data?.products.tram ? "Available" : "Not Available"}</td>
+              <td>
+                {favStopsid.includes(data.id)  ? (
+                  <IoIosHeart
+                    className="fav-button"
+                    onClick={e => changeFavStatus(data)}
+                  />
+                ) : (
+                  <IoIosHeartEmpty
+                    className="fav-button"
+                    onClick={e => changeFavStatus(data)}
+                  />
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
