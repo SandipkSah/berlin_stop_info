@@ -32,7 +32,7 @@ export default function FavInfo(props) {
     var stopArray = JSON.parse(localStorage.getItem("localFavIDArr"));
     console.log("-_)+++++++++++++",stopArray)
     var a = [];
-    a = JSON.parse(localStorage.getItem("localFavIDArr"));
+    a = JSON.parse(localStorage.getItem("localFavArr"));
     console.log("ffffffffffffffffffff", JSON.parse(localStorage.getItem("localFavIDArr")) || []);
     setstopsList(a);
   }, []);
