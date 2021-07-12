@@ -30,10 +30,10 @@ export default function FavInfo(props) {
 
   useEffect(() => {
     var stopArray = JSON.parse(localStorage.getItem("localFavIDArr"));
-    console.log("-_)+++++++++++++",stopArray)
+    // console.log("-_)+++++++++++++",stopArray)
     var a = [];
     a = JSON.parse(localStorage.getItem("localFavArr"));
-    console.log("ffffffffffffffffffff", JSON.parse(localStorage.getItem("localFavIDArr")) || []);
+    // console.log("ffffffffffffffffffff", JSON.parse(localStorage.getItem("localFavIDArr")) || []);
     setstopsList(a);
   }, []);
 
