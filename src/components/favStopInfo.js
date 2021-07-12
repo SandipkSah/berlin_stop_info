@@ -1,64 +1,63 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, Link, useHistory } from "react-router-dom";
-import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
+import { useHistory } from "react-router-dom";
+import { IoIosHeart } from "react-icons/io";
 
-export default function StopInfo(props) {
+export default function FavInfo(props) {
   const history = useHistory();
-  // const location = useLocation();
-  // const queryParam =
-  //   location.state.detail === undefined ? "airport" : location.state.detail;
-  // console.log("----------", queryParam);
-
-  const changeFavStatus = (data) => {
-    const {id} = data
-    console.log(id);
-    // console.log("favxa,", favStopsid.includes(id) );
-    if (true) {
-      // favStopsid.push(id)
-      // const storageFavStops = {id: data}
-      // localStorage.setItem(id,data)
-      console.log(localStorage)
-      // console.log(storageFavStops)
-      // console.log("--------array", favStopsid)
-      console.log("addinnggggggggggggg")
-    }else{
-      // console.log("............",favStopsid.indexOf(id))
-      // favStopsid.splice(favStopsid.indexOf(id), 1)
-      // console.log("--------array", favStopsid)
-      console.log("removinggggggggggggggggg")
-    }
-  };
-
-
   const [stopsList, setstopsList] = useState([]);
 
+  const removeFavStatus = (data) => {
+    const { id } = data;
+    // console.log("gggkkkkkkkkkkk",id);
+    var favStops = [];
+    favStops = JSON.parse(localStorage.getItem("localFavIDArr")) || [];
+    // console.log("favxa,", favStops.includes(data));
+    // console.log("deleteddddddddddddd", favStops.indexOf(data));
+    favStops.splice(favStops.indexOf(data), 1);
+    localStorage.setItem("localFavIDArr", JSON.stringify(favStops));
+    favStops = JSON.parse(localStorage.getItem("localFavIDArr")) || [];
+    // console.log("gggggggggg", favStops);
+    setstopsList(favStops);
+  };
+
+  const toggleFavStatus = (data) => {
+    const { id } = data;
+    var stopArrayid = [];
+    stopArrayid = JSON.parse(localStorage.getItem("localFavArr")) || [];
+    console.log("favxa,", stopArrayid.includes(id));
+    stopArrayid.splice(stopArrayid.indexOf(id), 1);
+  };
+
   useEffect(() => {
-    axios
-      .get(`https://berlin-trasnportation-app.herokuapp.com/api/getlocation/s`)
-      .then((res) => {
-        setstopsList(res.data);
-        // console.log(stopsList);
-        // console.log("..........for lokal", localStorage);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+    var stopArray = JSON.parse(localStorage.getItem("localFavIDArr"));
+    console.log("-_)+++++++++++++",stopArray)
+    var a = [];
+    a = JSON.parse(localStorage.getItem("localFavIDArr"));
+    console.log("ffffffffffffffffffff", JSON.parse(localStorage.getItem("localFavIDArr")) || []);
+    setstopsList(a);
+  }, []);
 
   return (
     <div className="col-auto">
       <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Name </th>
-            <th scope="col">Type </th>
-            <th scope="col">Subway</th>
-            <th scope="col">Suburban</th>
-            <th scope="col">Tram</th>
-            <th scope="col">Fav</th>
-          </tr>
-        </thead>
+        {!(Array.isArray(stopsList) && stopsList.length) ? (
+          <div className="container">
+            <h1 className="alert alert-primary text-center">
+              No Stops added as Favourite
+            </h1>
+          </div>
+        ) : (
+          <thead>
+            <tr>
+              <th scope="col">Name </th>
+              <th scope="col">Type </th>
+              <th scope="col">Subway</th>
+              <th scope="col">Suburban</th>
+              <th scope="col">Tram</th>
+              <th scope="col">Fav</th>
+            </tr>
+          </thead>
+        )}
         <tbody>
           {stopsList.map((data) => (
             <tr key={data.id}>
@@ -69,7 +68,7 @@ export default function StopInfo(props) {
                     e.preventDefault();
                     history.push({
                       pathname: "/stopDepartures",
-                      state: { detail: data.id },
+                      state: { detail: [data.id, data.name] },
                     });
                   }}
                 >
@@ -81,17 +80,13 @@ export default function StopInfo(props) {
               <td>{data?.products.suburban ? "Available" : "Not Available"}</td>
               <td>{data?.products.tram ? "Available" : "Not Available"}</td>
               <td>
-                {true ? (
-                  <IoIosHeart
-                    className="fav-button"
-                    onClick={(e) => changeFavStatus(data)}
-                  />
-                ) : (
-                  <IoIosHeartEmpty
-                    className="fav-button"
-                    onClick={(e) => changeFavStatus(data)}
-                  />
-                )}
+                <IoIosHeart
+                  className="fav-button"
+                  onClick={(e) => {
+                    removeFavStatus(data);
+                    toggleFavStatus(data);
+                  }}
+                />
               </td>
             </tr>
           ))}
