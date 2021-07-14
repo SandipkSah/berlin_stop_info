@@ -3,4 +3,4 @@ some issue with cors while requesting data to be fixed
 
 suggested by a friend who received this project as challenge from his employer
 
-Not deployed yet
+deployed using netlify at https://berlintransportstopinfo.netlify.app/
