@@ -7,6 +7,7 @@ export default function StopInfo(props) {
   const history = useHistory();
   const [stopsList, setstopsList] = useState([]);
   const [favIDList, setFavIDList] = useState();
+  const [invoke, setInvoke] = useState(false);
 
   function saveDataToLocalStorage(data) {
     const tempData = {
@@ -22,7 +23,7 @@ export default function StopInfo(props) {
     stopArray.push(tempData);
     localStorage.setItem("favArr", JSON.stringify(stopArray));
     stopArray = JSON.parse(localStorage.getItem("favArr"));
-    console.log(":::::::::::::::", stopArray);
+    //console.log(":::::::::::::::", stopArray);
   }
 
   function removeDataFromLocalStorage(data) {
@@ -38,7 +39,7 @@ export default function StopInfo(props) {
     stopArray.splice(stopArray.indexOf(tempData), 1);
     localStorage.setItem("favArr", JSON.stringify(stopArray));
     stopArray = JSON.parse(localStorage.getItem("favArr")) || [];
-    console.log(":::::::::::::::", stopArray);
+    //console.log(":::::::::::::::", stopArray);
   }
 
   const toggleFavStatus = (data) => {
@@ -70,6 +71,7 @@ export default function StopInfo(props) {
       setFavIDList(favStopIDArray);
       removeDataFromLocalStorage(data);
     }
+    setInvoke(!invoke);
     // var forRerun = stopsList;
     // setstopsList(forRerun);
     //localStorage.setItem("localFavIDArr", JSON.stringify(favStopIDArray));
@@ -92,7 +94,7 @@ export default function StopInfo(props) {
       .catch((error) => {
         console.log("something is definitely wrong");
       });
-  }, []);
+  }, [invoke,props.searchParam]);
 
   return (
     <div className="col-auto">
@@ -130,9 +132,9 @@ export default function StopInfo(props) {
               <td>{data?.products.suburban ? "Available" : "Not Available"}</td>
               <td>{data?.products.tram ? "Available" : "Not Available"}</td>
               <td>
-                {console.log("from the jsx component each data are", data)}
-                {console.log(favIDList?.includes(data.id))}
-                {favIDList?.includes(data.id) ? (
+                {/* {console.log("from the jsx component each data are", data)} */}
+                {console.log(false || favIDList?.includes(data.id))}
+                {favIDList.includes(data.id) ? (
                   <IoIosHeart
                     className="fav-button"
                     onClick={(e) => toggleFavStatus(data)}

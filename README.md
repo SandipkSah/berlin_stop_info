@@ -1,6 +1,6 @@
 berlin transport to search and show info about any stop/station
 
-the page is not re-rendering after changing state, I have to look into that
+There is a small issue with adding and removing favStop I will solve it soon
 
 some issue with cors while requesting data to be fixed
 
