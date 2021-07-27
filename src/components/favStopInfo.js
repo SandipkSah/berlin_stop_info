@@ -9,9 +9,11 @@ export default function FavInfo(props) {
   const toggleFavStatus = (data) => {
     var stopArray = [];
     stopArray = JSON.parse(localStorage.getItem("favArr")) || [];
-    // stopArray = stopArray.filter((eachData) => eachData !== data.id);
+    //gets data from localStorage and stores in favStopsList 
     stopArray.splice(stopArray.indexOf(data), 1);
+    //removes a data from favStopsList 
     localStorage.setItem("favArr", JSON.stringify(stopArray));
+    // sets modified favStopsList to localStorage 
     setfavStopsList(stopArray);
   };
 
@@ -26,6 +28,7 @@ export default function FavInfo(props) {
           <div className="container">
             <h1 className="alert alert-primary text-center">
               No Stops added as Favourite
+              {/* in case of no object as Favourite stops */}
             </h1>
           </div>
         ) : (

@@ -8,8 +8,10 @@ export default function StopInfo(props) {
   const [stopsList, setstopsList] = useState([]);
   const [favIDList, setFavIDList] = useState();
   const [invoke, setInvoke] = useState(false);
+  //used as a way to invoke rerendering
 
   function saveDataToLocalStorage(data) {
+    //to optimize the usage of localStorage new object is created from retrieved data
     const tempData = {
       id: data.id,
       name: data.name,
@@ -17,16 +19,19 @@ export default function StopInfo(props) {
       products: data.products,
     };
     var stopArray = [];
+    //temporarily stores array stored in local Storage
     stopArray = JSON.parse(localStorage.getItem("favArr")) || [];
     //console.log(stopArray.includes(tempData));
     console.log("entering from add data>>>>>>>>>>");
     stopArray.push(tempData);
+    //push created object to the array
     localStorage.setItem("favArr", JSON.stringify(stopArray));
-    stopArray = JSON.parse(localStorage.getItem("favArr"));
+    //stopArray is stored in localStorage with variable favArr
     //console.log(":::::::::::::::", stopArray);
   }
 
   function removeDataFromLocalStorage(data) {
+    //to optimize the usage of localStorage new object is created from retrieved data
     const tempData = {
       id: data.id,
       name: data.name,
@@ -38,8 +43,6 @@ export default function StopInfo(props) {
     console.log("entering from remove data>>");
     stopArray.splice(stopArray.indexOf(tempData), 1);
     localStorage.setItem("favArr", JSON.stringify(stopArray));
-    stopArray = JSON.parse(localStorage.getItem("favArr")) || [];
-    //console.log(":::::::::::::::", stopArray);
   }
 
   const toggleFavStatus = (data) => {
@@ -72,31 +75,31 @@ export default function StopInfo(props) {
       removeDataFromLocalStorage(data);
     }
     setInvoke(!invoke);
-    // var forRerun = stopsList;
-    // setstopsList(forRerun);
-    //localStorage.setItem("localFavIDArr", JSON.stringify(favStopIDArray));
   };
 
   useEffect(() => {
     const favArr = JSON.parse(localStorage.getItem("favArr")) || [];
-    var favArrID = [];
+    var tempFavIDArr = [];
     favArr.map((eachFavdata) => {
-      favArrID.push(eachFavdata.id);
+      tempFavIDArr.push(eachFavdata.id);
     });
-    setFavIDList(favArrID);
+    setFavIDList(tempFavIDArr);
+    //set favIDList using array from local Storage by only taking id of each object
     axios
       .get(
         `https://berlin-trasnportation-app.herokuapp.com/api/getlocation/${props.searchParam}`
       )
       .then((res) => {
         setstopsList(res.data);
+        //receives data from the server and add to the stopsList
       })
       .catch((error) => {
         console.log("something is definitely wrong");
       });
-  }, [invoke,props.searchParam]);
+  }, [invoke, props.searchParam]);//invokes useEffect only if there is change in invoke or props.searchParam
 
   return (
+    // simple table to represent data
     <div className="col-auto">
       <table className="table">
         <thead>
@@ -133,7 +136,7 @@ export default function StopInfo(props) {
               <td>{data?.products.tram ? "Available" : "Not Available"}</td>
               <td>
                 {/* {console.log("from the jsx component each data are", data)} */}
-                {console.log(false || favIDList?.includes(data.id))}
+                {console.log(favIDList?.includes(data.id))}
                 {favIDList.includes(data.id) ? (
                   <IoIosHeart
                     className="fav-button"
