@@ -4,43 +4,25 @@ import { IoIosHeart } from "react-icons/io";
 
 export default function FavInfo(props) {
   const history = useHistory();
-  const [stopsList, setstopsList] = useState([]);
-
-  const removeFavStatus = (data) => {
-    const { id } = data;
-    // console.log("gggkkkkkkkkkkk",id);
-    var favStops = [];
-    favStops = JSON.parse(localStorage.getItem("localFavIDArr")) || [];
-    // console.log("favxa,", favStops.includes(data));
-    // console.log("deleteddddddddddddd", favStops.indexOf(data));
-    favStops.splice(favStops.indexOf(data), 1);
-    localStorage.setItem("localFavIDArr", JSON.stringify(favStops));
-    favStops = JSON.parse(localStorage.getItem("localFavIDArr")) || [];
-    // console.log("gggggggggg", favStops);
-    setstopsList(favStops);
-  };
+  const [favStopsList, setfavStopsList] = useState([]);
 
   const toggleFavStatus = (data) => {
-    const { id } = data;
-    var stopArrayid = [];
-    stopArrayid = JSON.parse(localStorage.getItem("localFavArr")) || [];
-    console.log("favxa,", stopArrayid.includes(id));
-    stopArrayid.splice(stopArrayid.indexOf(id), 1);
+    var stopArray = [];
+    stopArray = JSON.parse(localStorage.getItem("favArr")) || [];
+    // stopArray = stopArray.filter((eachData) => eachData !== data.id);
+    stopArray.splice(stopArray.indexOf(data), 1);
+    localStorage.setItem("favArr", JSON.stringify(stopArray));
+    setfavStopsList(stopArray);
   };
 
   useEffect(() => {
-    var stopArray = JSON.parse(localStorage.getItem("localFavIDArr"));
-    // console.log("-_)+++++++++++++",stopArray)
-    var a = [];
-    a = JSON.parse(localStorage.getItem("localFavArr"));
-    // console.log("ffffffffffffffffffff", JSON.parse(localStorage.getItem("localFavIDArr")) || []);
-    setstopsList(a);
+    setfavStopsList(JSON.parse(localStorage.getItem("favArr")));
   }, []);
 
   return (
     <div className="col-auto">
       <table className="table">
-        {!(Array.isArray(stopsList) && stopsList.length) ? (
+        {!(Array.isArray(favStopsList) && favStopsList.length) ? (
           <div className="container">
             <h1 className="alert alert-primary text-center">
               No Stops added as Favourite
@@ -59,7 +41,7 @@ export default function FavInfo(props) {
           </thead>
         )}
         <tbody>
-          {stopsList.map((data) => (
+          {favStopsList.map((data) => (
             <tr key={data.id}>
               <th scope="row">
                 <a
@@ -83,7 +65,7 @@ export default function FavInfo(props) {
                 <IoIosHeart
                   className="fav-button"
                   onClick={(e) => {
-                    removeFavStatus(data);
+                    //removeFavStatus(data);
                     toggleFavStatus(data);
                   }}
                 />
