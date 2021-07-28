@@ -31,17 +31,9 @@ export default function StopInfo(props) {
   }
 
   function removeDataFromLocalStorage(data) {
-    //to optimize the usage of localStorage new object is created from retrieved data
-    const tempData = {
-      id: data.id,
-      name: data.name,
-      type: data.type,
-      products: data.products,
-    };
     var stopArray = [];
     stopArray = JSON.parse(localStorage.getItem("favArr")) || [];
-    console.log("entering from remove data>>");
-    stopArray.splice(stopArray.indexOf(tempData), 1);
+    stopArray = stopArray.filter((eachData) => eachData.id !== data.id);
     localStorage.setItem("favArr", JSON.stringify(stopArray));
   }
 
@@ -96,7 +88,7 @@ export default function StopInfo(props) {
       .catch((error) => {
         console.log("something is definitely wrong");
       });
-  }, [invoke, props.searchParam]);//invokes useEffect only if there is change in invoke or props.searchParam
+  }, [invoke, props.searchParam]); //invokes useEffect only if there is change in invoke or props.searchParam
 
   return (
     // simple table to represent data
@@ -136,7 +128,7 @@ export default function StopInfo(props) {
               <td>{data?.products.tram ? "Available" : "Not Available"}</td>
               <td>
                 {/* {console.log("from the jsx component each data are", data)} */}
-                {console.log(favIDList?.includes(data.id))}
+                {console.log(favIDList?.includes(data.id), data.id)}
                 {favIDList.includes(data.id) ? (
                   <IoIosHeart
                     className="fav-button"

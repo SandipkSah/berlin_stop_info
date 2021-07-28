@@ -27,7 +27,7 @@ export default function FavInfo(props) {
         {!(Array.isArray(favStopsList) && favStopsList.length) ? (
           <div className="container">
             <h1 className="alert alert-primary text-center">
-              No Stops added as Favourite
+              No Stop added as Favourite
               {/* in case of no object as Favourite stops */}
             </h1>
           </div>
